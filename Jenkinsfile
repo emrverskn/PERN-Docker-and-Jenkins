@@ -1,6 +1,7 @@
 pipeline{
     agent any
     stages {
+        stage('Set Environment Variables') {
         environment {
             DOCKERHUB_USER="emrverskn"
             APP_REPO_NAME="todo-app"
@@ -9,6 +10,8 @@ pipeline{
             POSTGRES_PASSWORD="Pp123456789"
             
         }
+    }
+        
         stage('Build App Docker Image') {
             steps {
                 sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:postgre" -f ./database/Dockerfile .'
