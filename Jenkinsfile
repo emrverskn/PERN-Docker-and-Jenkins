@@ -81,7 +81,7 @@ pipeline{
              }
         }
 
-        stage('wait the nodejs container') {
+        stage('wait the react container') {
             steps {
                 script {
                     echo 'Waiting for the containers'
