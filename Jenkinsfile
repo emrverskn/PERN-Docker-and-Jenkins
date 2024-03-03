@@ -99,6 +99,8 @@ pipeline{
                     input message:'Approve terminate'
                 }
                 sh 'docker rm -f $(docker ps -aq)'
+                sh 'docker network rm $NETWORK'
+                sh 'docker volume rm $DB_VOLUME'
                 sh 'docker rmi -f $DOCKERHUB_USER/$APP_REPO_NAME:postgre $DOCKERHUB_USER/$APP_REPO_NAME:nodejs $DOCKERHUB_USER/$APP_REPO_NAME:react'
             }
         }
