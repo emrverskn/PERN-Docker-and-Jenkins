@@ -1,7 +1,6 @@
 pipeline{
     agent any
-    stages {
-        stage('Set Environment Variables') {
+
         environment {
             DOCKERHUB_USER="emrverskn"
             APP_REPO_NAME="todo-app"
@@ -10,8 +9,7 @@ pipeline{
             POSTGRES_PASSWORD="Pp123456789"
             
         }
-    }
-        
+    stages {
         stage('Build App Docker Image') {
             steps {
                 sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:postgre" -f ./database/Dockerfile .'
@@ -47,7 +45,7 @@ pipeline{
 
         stage('Deploy the Database') {
             steps {
-                echo 'Deploy the Postgresql'
+                echo 'Deploying the Postgresql'
                 sh 'docker run --name postgres -p 5432:5432 -v $DB_VOLUME:/var/lib/postgresql/data --network $NETWORK -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:postgre'
              }
         }
@@ -84,16 +82,6 @@ pipeline{
              }
         }
 
-        stage('wait the react container') {
-            steps {
-                script {
-                    echo 'Waiting for the containers'
-                    sh 'sleep 60s'
-                }
-            }
-        }
-
-
         stage('Delete containers and images'){
             steps{
                 timeout(time:5, unit:'DAYS'){
@@ -105,6 +93,5 @@ pipeline{
                 sh 'docker rmi -f $DOCKERHUB_USER/$APP_REPO_NAME:postgre $DOCKERHUB_USER/$APP_REPO_NAME:nodejs $DOCKERHUB_USER/$APP_REPO_NAME:react'
             }
         }
-
     }
 }
