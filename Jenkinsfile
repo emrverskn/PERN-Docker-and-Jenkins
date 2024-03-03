@@ -53,7 +53,7 @@ pipeline{
             steps {
                 script {
                     echo 'Waiting for the containers'
-                    sh 'sleep 120s'
+                    sh 'sleep 60s'
                 }
             }
         }
