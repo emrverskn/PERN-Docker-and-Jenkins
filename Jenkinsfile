@@ -1,8 +1,6 @@
 pipeline{
     agent any
 
-    }
-
     environment {
         DOCKERHUB_USER="emrverskn"
         APP_REPO_NAME="todo-app"
@@ -105,4 +103,4 @@ pipeline{
             }
         }
 
-
+}
