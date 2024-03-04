@@ -22,13 +22,14 @@ pipeline{
         stage('Push Image to DockerHub Repo') {
             steps {
                 echo 'Pushing App Image to DockerHub Repo'
-                sh 'docker login -u emrverskn -p dckr_pat_gjCCuQYq8ADyjCSYzbdfsg4YqwM'
+                withCredentials([string(credentialsId: 'DockerHub-Token', variable: 'DOCKERHUB_TOKEN')]) {
+                sh 'docker login -u emrverskn -p $DOCKERHUB_TOKEN'
                 sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:postgre"'
                 sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:nodejs"'
                 sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:react"'
             }
         }
-
+    }
         stage('Create Volume') {
             steps {
                 echo 'Creating Volume'
@@ -46,10 +47,11 @@ pipeline{
         stage('Deploy the Database') {
             steps {
                 echo 'Deploying the Postgresql'
+                withCredentials([string(credentialsId: 'Postgres-Password', variable: 'POSTGRES_PASSWORD')]) {
                 sh 'docker run --name postgres -p 5432:5432 -v $DB_VOLUME:/var/lib/postgresql/data --network $NETWORK -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:postgre'
              }
         }
-
+    }
         stage('wait the postgres container') {
             steps {
                 script {
