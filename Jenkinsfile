@@ -89,7 +89,6 @@ pipeline{
                 timeout(time:5, unit:'DAYS'){
                     input message:'Approve terminate'
                 }
-                sh 'docker rm -f $(docker ps -aq)'
             }
         }
     }
