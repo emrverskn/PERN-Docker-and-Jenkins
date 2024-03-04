@@ -84,7 +84,7 @@ pipeline{
              }
         }
 
-        stage('Delete containers'){
+        stage('Approve all stages'){
             steps{
                 timeout(time:5, unit:'DAYS'){
                     input message:'Approve terminate'
