@@ -92,8 +92,8 @@ pipeline{
                 sh 'docker rm -f $(docker ps -aq)'
             }
         }
-    }
     
+
     post {
         always {
             echo 'Cleaning up'
