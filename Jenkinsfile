@@ -47,7 +47,7 @@ pipeline{
         stage('Deploy the Database') {
             steps {
                 echo 'Deploying the Postgresql'
-                withCredentials([string(credentialsId: 'Postgres-Password', variable: 'POSTGRES_PASSWORD')]) {
+                withCredentials([string(credentialsId: 'Postgres-Password', variable: 'POSTGRE_PASSWORD')]) {
                 sh 'docker run --name postgres -p 5432:5432 -v $DB_VOLUME:/var/lib/postgresql/data --network $NETWORK -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:postgre'
              }
         }
@@ -92,8 +92,8 @@ pipeline{
                 sh 'docker rm -f $(docker ps -aq)'
             }
         }
+    }
     
-
     post {
         always {
             echo 'Cleaning up'
