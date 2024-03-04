@@ -47,7 +47,7 @@ pipeline{
         stage('Deploy the Database') {
             steps {
                 echo 'Deploying the Postgresql'
-                withCredentials([string(credentialsId: 'Postgres-Password', variable: 'POSTGRE_PASSWORD')]) {
+                withCredentials([string(credentialsId: 'Postgres-Password', variable: 'POSTGRES_PASSWORD')]) {
                 sh 'docker run --name postgres -p 5432:5432 -v $DB_VOLUME:/var/lib/postgresql/data --network $NETWORK -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:postgre'
              }
         }
@@ -80,7 +80,7 @@ pipeline{
         stage('Deploy the Client') {
             steps {
                 echo 'Deploying the React'
-                sh 'docker run --name react -p 3000:3000 --network $NETWORK --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:react'
+                sh 'docker un --name react -p 3000:3000 --network $NETWORK --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:react'
              }
         }
 
