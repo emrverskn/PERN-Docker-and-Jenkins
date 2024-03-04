@@ -1,7 +1,10 @@
 FROM node:14.21-slim
 WORKDIR /usr/src/app
 COPY ./server/package*.json ./
+ADD https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-alpine-linux-amd64-v0.7.0.tar.gz dockerize.tar.gz
+RUN tar -xzf dockerize.tar.gz
+RUN chmod +x dockerize
 RUN npm install
 COPY ./server/ .
 EXPOSE 5000
-CMD ["node","app.js"]
+ENTRYPOINT ["node","app.js"]
