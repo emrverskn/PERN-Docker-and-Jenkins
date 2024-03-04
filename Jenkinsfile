@@ -84,36 +84,34 @@ pipeline{
              }
         }
 
-        stage('Delete containers and images'){
+        stage('Delete containers'){
             steps{
                 timeout(time:5, unit:'DAYS'){
                     input message:'Approve terminate'
                 }
                 sh 'docker rm -f $(docker ps -aq)'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Cleaning up'
+            script {
                 sh 'docker network rm $NETWORK'
                 sh 'docker volume rm $DB_VOLUME'
                 sh 'docker rmi -f $DOCKERHUB_USER/$APP_REPO_NAME:postgre $DOCKERHUB_USER/$APP_REPO_NAME:nodejs $DOCKERHUB_USER/$APP_REPO_NAME:react'
             }
         }
+
+        success {
+            echo 'Pipeline executed successfully'
+            sh 'echo "SUCCESS"'
+        }
+
+        failure {
+            echo 'Pipeline failed. Cleaning up containers, images, network, and volume.'
+            sh 'echo "FAILURE"'
+        }
     }
 }
-
-    // post {
-    //     always {
-    //         echo 'Cleaning up'
-    //         script {
-    //             sh 'docker rm -f $(docker container ls -aq)'
-    //             sh 'docker rmi -f $(docker images -q)'
-    //             sh 'docker network rm $NETWORK'
-    //             sh 'docker volume rm $DB_VOLUME'
-    //         }
-    //     }
-
-    //     success {
-    //         echo 'Pipeline executed successfully'
-    //     }
-
-    //     failure {
-    //         echo 'Pipeline failed. Cleaning up containers, images, network, and volume.'
-    //     }
-    // }
