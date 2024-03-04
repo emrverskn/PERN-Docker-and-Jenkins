@@ -56,7 +56,7 @@ pipeline{
             steps {
                 script {
                     echo 'Waiting for the db container'
-                    sh './dockerize -wait tcp://postgres:5432 -timeout 60s'
+                    sh 'sleep 60s'
                 }
             }
         }
@@ -71,8 +71,8 @@ pipeline{
         stage('wait the nodejs container') {
             steps {
                 script {
-                    echo 'Waiting for the containers'
-                    sh './dockerize -wait tcp://server:5000 -timeout 60s'
+                    echo 'Waiting for the server container'
+                    sh 'sleep 60s'
                 }
             }
         }
