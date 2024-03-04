@@ -80,7 +80,7 @@ pipeline{
         stage('Deploy the Client') {
             steps {
                 echo 'Deploying the React'
-                sh 'docker un --name react -p 3000:3000 --network $NETWORK --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:react'
+                sh 'docker run --name react -p 3000:3000 --network $NETWORK --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:react'
              }
         }
 
