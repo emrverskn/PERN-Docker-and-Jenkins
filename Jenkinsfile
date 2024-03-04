@@ -97,3 +97,23 @@ pipeline{
         }
     }
 }
+
+    // post {
+    //     always {
+    //         echo 'Cleaning up'
+    //         script {
+    //             sh 'docker rm -f $(docker container ls -aq)'
+    //             sh 'docker rmi -f $(docker images -q)'
+    //             sh 'docker network rm $NETWORK'
+    //             sh 'docker volume rm $DB_VOLUME'
+    //         }
+    //     }
+
+    //     success {
+    //         echo 'Pipeline executed successfully'
+    //     }
+
+    //     failure {
+    //         echo 'Pipeline failed. Cleaning up containers, images, network, and volume.'
+    //     }
+    // }
